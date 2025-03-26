@@ -131,31 +131,34 @@
     //once on the link, in the dev tools of chrome I check for the div class for the CONTAINER of all the elements on the list I want to search through
     //in this case: div='mw-category mw-category-columns'
 
-    const category = document.querySelector('.mw-category.mw-category-columns'); //selects that div and assigns it to 'category'
-    // Dot (.) notation selects multiple classes that exist on the same element.
-    // Here, .mw-category.mw-category-columns matches any element that has both classes at the same time.
+    
+    // //This runs on the chrome devs tools
+    // const category = document.querySelector('.mw-category.mw-category-columns'); //selects that div and assigns it to 'category'
+    // // Dot (.) notation selects multiple classes that exist on the same element.
+    // // Here, .mw-category.mw-category-columns matches any element that has both classes at the same time.
  
-    const links = category.querySelectorAll('a');//a is for links so we are selecting ALL the links in that div
-    //links has a list of objects BUT AS A NODE LIST NOT AS AN ARRAY, each containing a link, the name of the link and some other data
-    //so what we do is map through that list and obtain something (to see them all I can console.table(links))
-    //in order to map through it, we need to have an ARRAY NOT a NODE LIST
+    // const links = category.querySelectorAll('a');//a is for links so we are selecting ALL the links in that div
+    // //links has a list of objects BUT AS A NODE LIST NOT AS AN ARRAY, each containing a link, the name of the link and some other data
+    // //so what we do is map through that list and obtain something (to see them all I can console.table(links))
+    // //in order to map through it, we need to have an ARRAY NOT a NODE LIST
     
-    const arrayLinks = Array.from(links);
+    // const arrayLinks = Array.from(links);
     
-    const linkText = arrayLinks
-                                .map(link => link.textContent)//this maps the arrayLinks and only saves the "textContent" of each link into linkText
-                                .filter(streetName => streetName.includes('de'));//this filters it inmediately after mapping and keeps only the ones that contain "de" in their link text
-
-
-
-
-
+    // const linkText = arrayLinks
+    //                             .map(link => link.textContent)//this maps the arrayLinks and only saves the "textContent" of each link into linkText
+    //                             .filter(streetName => streetName.includes('de'));//this filters it inmediately after mapping and keeps only the ones that contain "de" in their link text
 
 
 
 
     // 7. sort Exercise
     // Sort the people alphabetically by last name
+    const alpha = people.sort(function(lastOne, nextOne){
+      const [aLast,aFirst] = lastOne.split(', ');//this will split each object (full name) into two variables, one for the last name and one for the first name of this specific object (lastOne) of the whole array (people)
+      const [bLast,bFirst] = nextOne.split(', ');
+      return aLast > bLast ? 1 : -1;
+    });
+    console.table(alpha);
 
     // 8. Reduce Exercise
     // Sum up the instances of each of these
