@@ -35,29 +35,123 @@
       'Berne, Eric', 'Berra, Yogi', 'Berry, Wendell', 'Bevan, Aneurin', 'Ben-Gurion, David', 'Bevel, Ken', 'Biden, Joseph', 'Bennington, Chester', 'Bierce, Ambrose',
       'Billings, Josh', 'Birrell, Augustine', 'Blair, Tony', 'Beecher, Henry', 'Biondo, Frank'
     ];
-    
-    // Array.prototype.filter()
-    // 1. Filter the list of inventors for those who were born in the 1500's
-    const fifteen = inventors.filter(function(inventor) {
-      //the filter method would run the function on each of the inventor from the array of objects inventors
-      // this would be inside the function
-      if (inventor.year >= 1500 && inventor.year < 1600) 
 
-    });
+    // Array.prototype.filter()
+    //filter ====>>> loop overs all the elements on the array and keeps only the elements that return the function true
+    // 1. Filter the list of inventors for those who were born in the 1500's
+    // const fifteen = inventors.filter(function(inventor) {
+    //   //the filter method would run the function on each of the inventor from the array of objects inventors
+    //   // this would be inside the function
+    //   if (inventor.year >= 1500 && inventor.year < 1600) {
+    //     return true; //meand we keep it, it goes through the filter
+    //   } //no need to else return false, since if the return is not true it gets filtered
+
+    // });
+
+    //-----------------------This exercise--------------------//
+    //can be written neatly like this:
+
+    const fifteen = inventors.filter(inventor => (inventor.year >= 1500 && inventor.year < 1600));
+      //the filter method would run the => function through all the inventors and check if the hole =>() is true or false and return true or false (and keep the true inventors)
+
+    console.table(fifteen);
+
+
 
     // Array.prototype.map()
+    //maps takes an array, does something with that array and returns an array with the same length (for example stamps or elements)
     // 2. Give us an array of the inventors first and last names
+    const fullNames = inventors.map(inventor => `${inventor.first} ${inventor.last}`); //the right of => is the same as writing inventor.first +' '+ inventor.last it is just to separate both words
+    console.log(fullNames)
+
+
+
 
     // Array.prototype.sort()
+    //sort takes two items and returns 1 or -1 depending on a if. The 1 and -1 moves up or down an item on the list
     // 3. Sort the inventors by birthdate, oldest to youngest
+    // const ordered = inventors.sort(function(firsrPerson, secondPerson) {
+    //   if (firstPerson.year > secondPerson.year) {
+    //     return 1;
+    //   } else {
+    //     return -1;
+    //   }
+    // });
+
+    //same exercise written more neatly:
+    const ordered= inventors.sort((firstPerson, secondPerson) => (firstPerson.year > secondPerson.year) ? 1 : -1);
+
+    console.table(ordered);
+
+
+
+
 
     // Array.prototype.reduce()
+    // reduce allows you to build something based on all the elements of the array
     // 4. How many years did all the inventors live all together?
 
+    //in the USUAL way of programming, withouth the reduce method it woul use a for and look like this:
+    // var totalYears=0;
+    // for (let i = 0; i < inventors.length; i++) {
+    //   totalYears += inventors[i].year;
+    // };
+    // console.log(totalYears);
+
+    const totalYears = inventors.reduce((total, inventor) => {
+      return total + (inventor.passed - inventor.year);
+    },0); //IMPORTANT this ,0 is to initialize total=0 at the beggining, if not, it will lead to errors!
+    console.log(totalYears);
+
+
+
+
     // 5. Sort the inventors by years lived
+    const oldest = inventors.sort(function(a,b) {
+      const lastGuy = a.passed - a.year;
+      const nextGuy = b.passed - b.year;
+      
+      // if (lastGuy > nextGuy) {
+      //   return -1;
+      // }else{
+      //   return 1;
+      // }
+
+      //the same if in one line:
+      return lastGuy > nextGuy ? -1 : 1;
+    });
+    console.table(oldest);
+
+
+
+
 
     // 6. create a list of Boulevards in Paris that contain 'de' anywhere in the name
     // https://en.wikipedia.org/wiki/Category:Boulevards_in_Paris
+    //once on the link, in the dev tools of chrome I check for the div class for the CONTAINER of all the elements on the list I want to search through
+    //in this case: div='mw-category mw-category-columns'
+
+    const category = document.querySelector('.mw-category.mw-category-columns'); //selects that div and assigns it to 'category'
+    // Dot (.) notation selects multiple classes that exist on the same element.
+    // Here, .mw-category.mw-category-columns matches any element that has both classes at the same time.
+ 
+    const links = category.querySelectorAll('a');//a is for links so we are selecting ALL the links in that div
+    //links has a list of objects BUT AS A NODE LIST NOT AS AN ARRAY, each containing a link, the name of the link and some other data
+    //so what we do is map through that list and obtain something (to see them all I can console.table(links))
+    //in order to map through it, we need to have an ARRAY NOT a NODE LIST
+    
+    const arrayLinks = Array.from(links);
+    
+    const linkText = arrayLinks
+                                .map(link => link.textContent)//this maps the arrayLinks and only saves the "textContent" of each link into linkText
+                                .filter(streetName => streetName.includes('de'));//this filters it inmediately after mapping and keeps only the ones that contain "de" in their link text
+
+
+
+
+
+
+
 
 
     // 7. sort Exercise
